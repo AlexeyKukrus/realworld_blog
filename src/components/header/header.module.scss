@@ -1,0 +1,80 @@
+.header {
+	padding: 20px;
+	background-color: #FFFFFF;
+	display: flex;
+	justify-content: space-between; 
+	align-items: center;
+	&__logo {
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 28px;
+	}
+	&__buttons {
+		display: flex;
+		justify-content: space-between; 
+		align-items: center;
+		&_offline {
+			width: 190px;
+		}
+		&_online {
+			min-width: 380px;
+		}
+	}
+	&__button {
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 28px;
+		padding: 5px 10px;
+		color: black;
+		&_signin {
+			margin-right: 20px;
+			&:hover {
+				cursor: pointer;
+			}
+		}
+		&_signup{
+			color: #52C41A;
+			border: 1px solid #52C41A;
+			border-radius: 5px;
+			&:hover {
+				cursor: pointer;
+			}
+		}
+		&_logout {
+			border: 1px solid black;
+			border-radius: 5px;
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+	&__button_create{
+			font-size: 14px;
+			font-weight: 400;
+			line-height: 22px;
+			padding: 8px 10px 5px 10px;
+			color: #52C41A;
+			border: 1px solid #52C41A;
+			border-radius: 5px;
+			height: 25px;
+			margin-right: 20px;
+			&:hover {
+				cursor: pointer;
+			}
+	}
+	&__user {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-right: 20px;
+		&_name {
+			font-size: 18px;
+			font-weight: 500;
+			line-height: 28px;
+			margin-right: 10px;
+		}
+		&_image {
+
+		}
+	}
+}
