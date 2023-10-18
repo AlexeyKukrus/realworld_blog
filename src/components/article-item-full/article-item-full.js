@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import ReactMarkdown from 'react-markdown';
 
 import { getAnArticle } from '../../redux/actions/action-creators';
@@ -40,7 +41,7 @@ const ArticleItemFull = () => {
             <div className={classes.full__tags}>
               {tagList.map((item) => {
                 return (
-                  <p className={classes.full__tags_tag} key={title}>
+                  <p className={classes.full__tags_tag} key={uuidv4()}>
                     {item}
                   </p>
                 );

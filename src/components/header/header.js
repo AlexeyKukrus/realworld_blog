@@ -1,13 +1,27 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
+import { Link, useHistory } from 'react-router-dom';
 
+import { currUser, logOut } from '../../redux/actions/action-creators';
 import profilePic from '../../img/avatar.png';
 
 import classes from './header.module.scss';
 
 const Header = () => {
-  const isLogin = true;
+  const history = useHistory();
+  const isLogin = useSelector((state) => state.reducerUsers.isLogin);
+  const currentUser = useSelector((state) => state.reducerUsers.user.username);
+  const currentProfilePic = useSelector((state) => state.reducerUsers.user.image);
+  const dispatch = useDispatch();
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (token) {
+      dispatch(currUser());
+    }
+  }, [dispatch, history, isLogin, currentUser, currentProfilePic]);
+
   return (
     <header className={classes.header}>
       <Link to="/" className={classes.header__logo}>
@@ -29,11 +43,21 @@ const Header = () => {
           </Link>
           <div className={classNames(classes.header__user)}>
             <Link to="/profile" className={classNames(classes.header__user_name)}>
-              John Doe
+              {currentUser}
             </Link>
-            <img src={profilePic} className={classNames(classes.header__user_image)} alt="avatar" />
+            <Link to="/profile" className={classNames(classes.header__user_image)}>
+              <img src={!currentProfilePic ? profilePic : currentProfilePic} alt="avatar" />
+            </Link>
           </div>
-          <a className={classNames(classes.header__button, classes.header__button_logout)}>Log Out</a>
+          <button
+            className={classNames(classes.header__button, classes.header__button_logout)}
+            onClick={() => {
+              dispatch(logOut());
+              history.push('/articles');
+            }}
+          >
+            Log Out
+          </button>
         </div>
       )}
     </header>

@@ -1,12 +1,11 @@
 .articles {
-	max-width: 938px;
-	min-height: 140px;
-	margin: 20px auto;
-	&__pagination {
-		display: flex;
+  max-width: 938px;
+  min-height: 140px;
+  margin: 20px auto;
+  &__pagination {
+    display: flex;
     justify-content: center;
     margin: 0 auto;
     max-width: 938px;
   }
 }
-

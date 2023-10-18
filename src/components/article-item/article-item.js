@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 import { formatDate } from '../../utilities/utilities';
 
@@ -26,7 +27,7 @@ const ArticleItem = ({ item }) => {
         <div className={classes.article__tags}>
           {tagList.map((item) => {
             return (
-              <p className={classes.article__tags_tag} key={item}>
+              <p className={classes.article__tags_tag} key={uuidv4()}>
                 {item}
               </p>
             );

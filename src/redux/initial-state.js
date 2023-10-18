@@ -20,3 +20,20 @@ export const initialStateArticles = {
     },
   },
 };
+
+export const initialStateUsers = {
+  user: {
+    email: null,
+    token: null,
+    username: null,
+    image: null,
+  },
+  server: {
+    errors: {
+      body: [],
+    },
+  },
+  isLogin: false,
+  loading: false,
+  error: null,
+};

@@ -1,5 +1,10 @@
 import getAllArticles from '../../service/get-all-articles';
 import getArticleFull from '../../service/get-article-full';
+import postRegistration from '../../service/post-registration';
+import postLogin from '../../service/post-login';
+import getCurrentUser from '../../service/get-current-user';
+import putEditProfile from '../../service/put-edit-profile';
+import instance from '../../service/instance';
 
 import {
   FETCH_ARTICLES_REQUEST,
@@ -8,6 +13,20 @@ import {
   FETCH_ARTICLE_FULL_REQUEST,
   FETCH_ARTICLE_FULL_SUCCESS,
   FETCH_ARTICLE_FULL_FAILURE,
+  POST_REGISTRATION,
+  POST_REGISTRATION_SUCCESS,
+  POST_REGISTRATION_FAILURE,
+  POST_REGISTRATION_SERVER_FAILURE,
+  POST_LOGIN,
+  POST_LOGIN_SUCCESS,
+  POST_LOGIN_FAILURE,
+  POST_LOGIN_SERVER_FAILURE,
+  GET_CURRENT_USER,
+  LOG_OUT,
+  PUT_EDIT_PROFILE,
+  PUT_EDIT_PROFILE_SUCCESS,
+  PUT_EDIT_PROFILE_FAILURE,
+  PUT_EDIT_PROFILE_SERVER_FAILURE,
 } from './action-types';
 
 export const fetchArticlesRequest = () => ({
@@ -30,6 +49,58 @@ export const fetchArticleFullSuccess = (article) => ({
 });
 export const fetchArticleFullFailure = (error) => ({
   type: FETCH_ARTICLE_FULL_FAILURE,
+  payload: error,
+});
+export const postRegistr = () => ({
+  type: POST_REGISTRATION,
+});
+export const postRegistrSuccess = (user) => ({
+  type: POST_REGISTRATION_SUCCESS,
+  payload: user,
+});
+export const postRegistrFailure = (error) => ({
+  type: POST_REGISTRATION_FAILURE,
+  payload: error,
+});
+export const postRegistrServerFailure = (error) => ({
+  type: POST_REGISTRATION_SERVER_FAILURE,
+  payload: error,
+});
+export const postLog = () => ({
+  type: POST_LOGIN,
+});
+export const postLogSuccess = (user) => ({
+  type: POST_LOGIN_SUCCESS,
+  payload: user,
+});
+export const postLogFailure = (error) => ({
+  type: POST_LOGIN_FAILURE,
+  payload: error,
+});
+export const postLogServerFailure = (error) => ({
+  type: POST_LOGIN_SERVER_FAILURE,
+  payload: error,
+});
+export const getCurrUser = (user) => ({
+  type: GET_CURRENT_USER,
+  payload: user,
+});
+export const logOut = () => ({
+  type: LOG_OUT,
+});
+export const putEditProf = () => ({
+  type: PUT_EDIT_PROFILE,
+});
+export const putEditProfSuccess = (user) => ({
+  type: PUT_EDIT_PROFILE_SUCCESS,
+  payload: user,
+});
+export const putEditProfFailure = (error) => ({
+  type: PUT_EDIT_PROFILE_FAILURE,
+  payload: error,
+});
+export const putEditProfServerFailure = (error) => ({
+  type: PUT_EDIT_PROFILE_SERVER_FAILURE,
   payload: error,
 });
 
@@ -55,6 +126,67 @@ export const getAnArticle = (slug) => {
       dispatch(fetchArticleFullSuccess(article));
     } catch (error) {
       dispatch(fetchArticleFullFailure(error.message));
+    }
+  };
+};
+
+export const registerUser = (userData) => {
+  return async (dispatch) => {
+    try {
+      dispatch(postRegistr());
+      const res = await postRegistration(userData);
+      const { user } = res.data;
+      dispatch(postRegistrSuccess(user));
+    } catch (error) {
+      if (error.response.status === 422) {
+        dispatch(postRegistrServerFailure(error.response.data));
+      } else {
+        dispatch(postRegistrFailure(error.message));
+      }
+    }
+  };
+};
+
+export const loginUser = (userData) => {
+  return async (dispatch) => {
+    try {
+      dispatch(postLog());
+      const res = await postLogin(userData);
+      const { user } = res.data;
+      const { token } = user;
+      if (token !== localStorage.getItem('token')) {
+        localStorage.setItem('token', token);
+        instance.defaults.headers.Authorization = `Token ${token}`;
+      }
+      dispatch(postLogSuccess(user));
+    } catch (error) {
+      if (error.message === '422') dispatch(postLogServerFailure(error));
+      else dispatch(postLogFailure(error.message));
+    }
+  };
+};
+
+export const currUser = () => {
+  return async (dispatch) => {
+    try {
+      const res = await getCurrentUser();
+      const { user } = res.data;
+      dispatch(getCurrUser(user));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const editProfile = (userData) => {
+  return async (dispatch) => {
+    try {
+      const res = await putEditProfile(userData);
+      const { user } = res.data;
+      dispatch(putEditProfSuccess(user));
+    } catch (error) {
+      if (error.message === '422') dispatch(putEditProfServerFailure(error));
+      else dispatch(putEditProfFailure(error.message));
     }
   };
 };

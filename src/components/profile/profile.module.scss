@@ -1,0 +1,66 @@
+.profile {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  max-width: 324px;
+  height: 420px;
+  margin: 70px auto 0 auto;
+  padding: 20px 25px 30px 25px;
+  box-shadow:
+    0px 0.6087964177131653px 2.9332919120788574px 0px rgba(0, 0, 0, 0.02),
+    0px 1.4630224704742432px 7.049108028411865px 0px rgba(0, 0, 0, 0.03),
+    0px 2.7547414302825928px 13.272845268249512px 0px rgba(0, 0, 0, 0.04),
+    0px 4.91398811340332px 23.67648696899414px 0px rgba(0, 0, 0, 0.04),
+    0px 9.19107437133789px 44.28426742553711px 0px rgba(0, 0, 0, 0.05),
+    0px 22px 106px 0px rgba(0, 0, 0, 0.07);
+  &__title {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+    margin-bottom: 15px;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    &_label {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 22px;
+    }
+    &_input {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      color: rgba(191, 191, 191, 1);
+      border: 1px solid rgba(191, 191, 191, 1);
+      border-radius: 5px;
+      padding: 5px 0 5px 10px;
+      margin-bottom: 25px;
+    }
+    &_button {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      padding: 5px 0;
+      color: #ffffff;
+      background-color: rgba(24, 144, 255, 1);
+      border-radius: 5px;
+      margin-bottom: 8px;
+      margin-top: 10px;
+    }
+  }
+}
+
+.error__message {
+  margin: -25px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  color: red;
+}
+.error__input {
+  border: 1px solid red;
+}
