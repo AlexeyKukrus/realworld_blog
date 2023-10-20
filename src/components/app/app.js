@@ -7,6 +7,8 @@ import ArticleItemFull from '../article-item-full/article-item-full';
 import SignIn from '../sign-in/sign-in';
 import SignUp from '../sign-up/sign-up';
 import Profile from '../profile/profile';
+import ArticleForm from '../article-form/article-form';
+import PrivateRoute from '../../utilities/private-route';
 
 const App = () => {
   return (
@@ -18,7 +20,9 @@ const App = () => {
         <Route exact path="/articles/:slug" component={ArticleItemFull} />
         <Route exact path="/sign-in" component={SignIn} />
         <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/profile" component={Profile} />
+        <PrivateRoute exact path="/profile" component={Profile} />
+        <PrivateRoute exact path="/new-article" component={ArticleForm} />
+        <Route exact path="/articles/:slug/edit" component={ArticleForm} />
       </Switch>
     </Router>
   );

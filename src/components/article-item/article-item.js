@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
-import { formatDate } from '../../utilities/utilities';
+import { formatDate } from '../../utilities/format-date';
+import { formatTitle, formatDescription } from '../../utilities/format-text';
 
 import classes from './articles-item.module.scss';
 
@@ -17,7 +18,7 @@ const ArticleItem = ({ item }) => {
       <div className={classes.article__content}>
         <div className={classes.article__title}>
           <Link to={`/articles/${slug}`} className={classes.article__title_title}>
-            {title}
+            {formatTitle(title)}
           </Link>
           <label className={classes.article__label}>
             <button className={classes.article__label_like}></button>
@@ -33,7 +34,7 @@ const ArticleItem = ({ item }) => {
             );
           })}
         </div>
-        <p className={classes.article__descr}>{description}</p>
+        <p className={classes.article__descr}>{formatDescription(description)}</p>
       </div>
       <div className={classes.article__user}>
         <div className={classes.article__user_info}>

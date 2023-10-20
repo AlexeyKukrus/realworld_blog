@@ -4,6 +4,10 @@ import postRegistration from '../../service/post-registration';
 import postLogin from '../../service/post-login';
 import getCurrentUser from '../../service/get-current-user';
 import putEditProfile from '../../service/put-edit-profile';
+import postNewArticle from '../../service/post-new-article';
+import putEditArticle from '../../service/put-edit-article';
+import getArticleEdit from '../../service/get-article-edit';
+import deleteArticle from '../../service/delete-article';
 import instance from '../../service/instance';
 
 import {
@@ -27,6 +31,21 @@ import {
   PUT_EDIT_PROFILE_SUCCESS,
   PUT_EDIT_PROFILE_FAILURE,
   PUT_EDIT_PROFILE_SERVER_FAILURE,
+  POST_NEW_ARTICLE,
+  POST_NEW_ARTICLE_SUCCESS,
+  POST_NEW_ARTICLE_FAILURE,
+  POST_NEW_ARTICLE_SERVER_FAILURE,
+  PUT_EDIT_ARTICLE,
+  PUT_EDIT_ARTICLE_SUCCESS,
+  PUT_EDIT_ARTICLE_FAILURE,
+  PUT_EDIT_ARTICLE_SERVER_FAILURE,
+  FETCH_EDIT_ARTICLE_REQUEST,
+  FETCH_EDIT_ARTICLE_SUCCESS,
+  FETCH_EDIT_ARTICLE_FAILURE,
+  DELETE_ARTICLE,
+  DELETE_ARTICLE_SUCCESS,
+  DELETE_ARTICLE_FAILURE,
+  DELETE_ARTICLE_SERVER_FAILURE,
 } from './action-types';
 
 export const fetchArticlesRequest = () => ({
@@ -101,6 +120,60 @@ export const putEditProfFailure = (error) => ({
 });
 export const putEditProfServerFailure = (error) => ({
   type: PUT_EDIT_PROFILE_SERVER_FAILURE,
+  payload: error,
+});
+export const postNewArticles = () => ({
+  type: POST_NEW_ARTICLE,
+});
+export const postNewArticlesSuccess = (article) => ({
+  type: POST_NEW_ARTICLE_SUCCESS,
+  payload: article,
+});
+export const postNewArticlesFailure = (error) => ({
+  type: POST_NEW_ARTICLE_FAILURE,
+  payload: error,
+});
+export const postNewArticlesServerFailure = (error) => ({
+  type: POST_NEW_ARTICLE_SERVER_FAILURE,
+  payload: error,
+});
+export const putEditArticles = () => ({
+  type: PUT_EDIT_ARTICLE,
+});
+export const putEditArticlesSuccess = () => ({
+  type: PUT_EDIT_ARTICLE_SUCCESS,
+});
+export const putEditArticlesFailure = (error) => ({
+  type: PUT_EDIT_ARTICLE_FAILURE,
+  payload: error,
+});
+export const putEditArticlesServerFailure = (error) => ({
+  type: PUT_EDIT_ARTICLE_SERVER_FAILURE,
+  payload: error,
+});
+export const fetchEditArticlesRequest = () => ({
+  type: FETCH_EDIT_ARTICLE_REQUEST,
+});
+export const fetchEditArticlesSuccess = (article) => ({
+  type: FETCH_EDIT_ARTICLE_SUCCESS,
+  payload: article,
+});
+export const fetchEditArticlesFailure = (error) => ({
+  type: FETCH_EDIT_ARTICLE_FAILURE,
+  payload: error,
+});
+export const deleteArticles = () => ({
+  type: DELETE_ARTICLE,
+});
+export const deleteArticlesSuccess = () => ({
+  type: DELETE_ARTICLE_SUCCESS,
+});
+export const deleteArticlesFailure = (error) => ({
+  type: DELETE_ARTICLE_FAILURE,
+  payload: error,
+});
+export const deleteArticlesServerFailure = (error) => ({
+  type: DELETE_ARTICLE_SERVER_FAILURE,
   payload: error,
 });
 
@@ -187,6 +260,60 @@ export const editProfile = (userData) => {
     } catch (error) {
       if (error.message === '422') dispatch(putEditProfServerFailure(error));
       else dispatch(putEditProfFailure(error.message));
+    }
+  };
+};
+
+export const createNewArticle = (articleData) => {
+  return async (dispatch) => {
+    try {
+      dispatch(postNewArticles());
+      const res = await postNewArticle(articleData);
+      const { article } = res.data;
+      dispatch(postNewArticlesSuccess(article));
+    } catch (error) {
+      if (error.message === '422') dispatch(postNewArticlesServerFailure(error));
+      else dispatch(postNewArticlesFailure(error.message));
+    }
+  };
+};
+
+export const editArticle = (articleData, slug) => {
+  return async (dispatch) => {
+    try {
+      dispatch(putEditArticles());
+      const res = await putEditArticle(articleData, slug);
+      console.log(res);
+      dispatch(putEditArticlesSuccess());
+    } catch (error) {
+      if (error.message === '422') dispatch(putEditArticlesServerFailure(error));
+      else dispatch(putEditArticlesFailure(error.message));
+    }
+  };
+};
+
+export const getEditArticle = (slug) => {
+  return async (dispatch) => {
+    try {
+      dispatch(fetchEditArticlesRequest());
+      const res = await getArticleEdit(slug);
+      const { article } = res.data;
+      dispatch(fetchEditArticlesSuccess(article));
+    } catch (error) {
+      dispatch(fetchEditArticlesFailure(error.message));
+    }
+  };
+};
+
+export const delArticle = (slug) => {
+  return async (dispatch) => {
+    try {
+      dispatch(deleteArticles());
+      const res = await deleteArticle(slug);
+      if (res.status === 204) dispatch(deleteArticlesSuccess());
+    } catch (error) {
+      if (error.message === '422') dispatch(deleteArticlesServerFailure(error));
+      else dispatch(deleteArticlesFailure(error.message));
     }
   };
 };

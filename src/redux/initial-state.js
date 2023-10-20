@@ -19,6 +19,9 @@ export const initialStateArticles = {
       following: false,
     },
   },
+  created: false,
+  edited: false,
+  deleted: false,
 };
 
 export const initialStateUsers = {

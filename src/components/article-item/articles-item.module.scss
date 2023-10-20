@@ -50,6 +50,7 @@
   &__tags {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     &_tag {
       font-size: 12px;
       font-weight: 400;

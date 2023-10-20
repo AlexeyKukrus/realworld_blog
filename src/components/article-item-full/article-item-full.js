@@ -1,18 +1,24 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import ReactMarkdown from 'react-markdown';
+import { Popconfirm } from 'antd';
 
-import { getAnArticle } from '../../redux/actions/action-creators';
-import { formatDate } from '../../utilities/utilities';
+import { getAnArticle, delArticle } from '../../redux/actions/action-creators';
+import { formatDate } from '../../utilities/format-date';
+import Loader from '../loader/loader';
+import Errors from '../errors/errors';
 
 import classes from './article-item-full.module.scss';
 
 const ArticleItemFull = () => {
-  const isLogin = false;
-
+  const isLogin = useSelector((state) => state.reducerUsers.isLogin);
   const article = useSelector((state) => state.reducerArticles.article);
+  const user = useSelector((state) => state.reducerUsers.user.username);
+  const loading = useSelector((state) => state.reducerArticles.loading);
+  const error = useSelector((state) => state.reducerArticles.error);
+
   const { slug } = useParams();
 
   const { author, title, favoritesCount, tagList, description, createdAt, body } = article;
@@ -21,13 +27,24 @@ const ArticleItemFull = () => {
   const markdown = body;
 
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const confirm = () => {
+    dispatch(delArticle(slug));
+    history.push('/articles');
+  };
+  const cancel = () => {
+    console.log('cancel');
+  };
 
   useEffect(() => {
     dispatch(getAnArticle(slug));
-  }, [dispatch]);
+  }, [dispatch, isLogin]);
 
   return (
     <>
+      {loading && !error ? <Loader /> : null}
+      {error ? <Errors message={error} /> : null}
       <li className={classes.full}>
         <div className={classes.full__top}>
           <div className={classes.full__content}>
@@ -57,11 +74,20 @@ const ArticleItemFull = () => {
               </div>
               <img className={classes.full__user_img} src={image} alt="avatar" />
             </div>
-            {!isLogin ? (
+            {isLogin && username === user ? (
               <div className={classes.full__user_button}>
-                <a className={classes.full__user_button_delete} href="#">
-                  Delete
-                </a>
+                <Popconfirm
+                  placement="rightTop"
+                  description="Are you sure to delete this article?"
+                  onConfirm={confirm}
+                  onCancel={cancel}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <a className={classes.full__user_button_delete} href="#">
+                    Delete
+                  </a>
+                </Popconfirm>
                 <Link to={`/articles/${slug}/edit`} className={classes.full__user_button_edit}>
                   Edit
                 </Link>
