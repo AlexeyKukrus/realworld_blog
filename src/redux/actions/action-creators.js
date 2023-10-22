@@ -8,6 +8,8 @@ import postNewArticle from '../../service/post-new-article';
 import putEditArticle from '../../service/put-edit-article';
 import getArticleEdit from '../../service/get-article-edit';
 import deleteArticle from '../../service/delete-article';
+import postFavorite from '../../service/post-favorite';
+import deleteFavorite from '../../service/delete-favorite';
 import instance from '../../service/instance';
 
 import {
@@ -46,6 +48,8 @@ import {
   DELETE_ARTICLE_SUCCESS,
   DELETE_ARTICLE_FAILURE,
   DELETE_ARTICLE_SERVER_FAILURE,
+  POST_FAVORITE,
+  DELETE_FAVORITE,
 } from './action-types';
 
 export const fetchArticlesRequest = () => ({
@@ -175,6 +179,14 @@ export const deleteArticlesFailure = (error) => ({
 export const deleteArticlesServerFailure = (error) => ({
   type: DELETE_ARTICLE_SERVER_FAILURE,
   payload: error,
+});
+export const postFavorited = (article) => ({
+  type: POST_FAVORITE,
+  payload: article,
+});
+export const deleteFavorited = (article) => ({
+  type: DELETE_FAVORITE,
+  payload: article,
 });
 
 export const getArticles = (page) => {
@@ -314,6 +326,31 @@ export const delArticle = (slug) => {
     } catch (error) {
       if (error.message === '422') dispatch(deleteArticlesServerFailure(error));
       else dispatch(deleteArticlesFailure(error.message));
+    }
+  };
+};
+
+export const postLike = (slug) => {
+  return async (dispatch) => {
+    try {
+      const res = await postFavorite(slug);
+      const { article } = res.data;
+      dispatch(postFavorited(article));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const deleteLike = (slug) => {
+  return async (dispatch) => {
+    try {
+      const res = await deleteFavorite(slug);
+      const { article } = res.data;
+      dispatch(deleteFavorited(article));
+    } catch (error) {
+      if (error.message === '422') console.log('422', error);
+      else console.log('Another er', error);
     }
   };
 };

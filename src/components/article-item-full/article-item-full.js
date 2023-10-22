@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ReactMarkdown from 'react-markdown';
 import { Popconfirm } from 'antd';
 
-import { getAnArticle, delArticle } from '../../redux/actions/action-creators';
+import { getAnArticle, delArticle, postLike, deleteLike } from '../../redux/actions/action-creators';
 import { formatDate } from '../../utilities/format-date';
 import Loader from '../loader/loader';
 import Errors from '../errors/errors';
@@ -21,7 +21,7 @@ const ArticleItemFull = () => {
 
   const { slug } = useParams();
 
-  const { author, title, favoritesCount, tagList, description, createdAt, body } = article;
+  const { author, title, favoritesCount, tagList, description, createdAt, body, favorited } = article;
   const { username, image } = author;
 
   const markdown = body;
@@ -35,6 +35,10 @@ const ArticleItemFull = () => {
   };
   const cancel = () => {
     console.log('cancel');
+  };
+
+  const handleFavorite = () => {
+    favorited ? dispatch(deleteLike(slug)) : dispatch(postLike(slug));
   };
 
   useEffect(() => {
@@ -51,7 +55,13 @@ const ArticleItemFull = () => {
             <div className={classes.full__title}>
               <h5 className={classes.full__title_title}>{title}</h5>
               <label className={classes.full__label}>
-                <button className={classes.full__label_like}></button>
+                <button
+                  className={favorited ? classes.full__label_active : classes.full__label_like}
+                  disabled={!isLogin ? true : false}
+                  onClick={() => {
+                    handleFavorite();
+                  }}
+                ></button>
                 <p className={classes.full__label_count}>{favoritesCount}</p>
               </label>
             </div>

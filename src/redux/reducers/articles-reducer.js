@@ -21,11 +21,12 @@ import {
   DELETE_ARTICLE_SUCCESS,
   DELETE_ARTICLE_FAILURE,
   DELETE_ARTICLE_SERVER_FAILURE,
+  POST_FAVORITE,
+  DELETE_FAVORITE,
 } from '../actions/action-types';
 
 const reducerArticles = (state = initialStateArticles, action) => {
   switch (action.type) {
-    /* ALL ARTICLES */
     case FETCH_ARTICLES_REQUEST:
       return {
         ...state,
@@ -155,6 +156,34 @@ const reducerArticles = (state = initialStateArticles, action) => {
         ...state,
         loading: false,
         server: action.payload,
+      };
+    case POST_FAVORITE:
+      return {
+        ...state,
+        articles: state.articles.map((item) => {
+          if (item.slug === action.payload.slug)
+            return {
+              ...item,
+              favorited: true,
+              favoritesCount: action.payload.favoritesCount,
+            };
+          return item;
+        }),
+        article: action.payload,
+      };
+    case DELETE_FAVORITE:
+      return {
+        ...state,
+        articles: state.articles.map((item) => {
+          if (item.slug === action.payload.slug)
+            return {
+              ...item,
+              favorited: false,
+              favoritesCount: action.payload.favoritesCount,
+            };
+          return item;
+        }),
+        article: action.payload,
       };
     default:
       return state;
