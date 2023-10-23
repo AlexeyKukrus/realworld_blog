@@ -32,7 +32,6 @@ const SignUp = () => {
 
   const onSubmit = (userData) => {
     const { username, email, password } = userData;
-    console.log(server);
     const user = {
       user: {
         username: username,
@@ -72,7 +71,10 @@ const SignUp = () => {
               maxLength: { value: 20, message: 'Your name needs to be at 3 - 20 characters.' },
             })}
           />
-          <div>{errors?.username && <p className={classes.error__message}>{errors.username.message}</p>}</div>
+          <div>
+            {errors?.username && <p className={classes.error__message}>{errors.username.message}</p>}
+            {server.errors.username ? <p className={classes.error__message}>{server.errors.username}</p> : null}
+          </div>
           <label className={classes.signup__form_label} htmlFor="email">
             Email address
           </label>
@@ -91,8 +93,10 @@ const SignUp = () => {
               },
             })}
           />
-          <div>{errors?.email && <p className={classes.error__message}>{errors.email.message}</p>}</div>
-
+          <div>
+            {errors?.email && <p className={classes.error__message}>{errors.email.message}</p>}
+            {server.errors.email ? <p className={classes.error__message}>{server.errors.email}</p> : null}
+          </div>
           <label className={classes.signup__form_label} htmlFor="password">
             Password
           </label>

@@ -12,14 +12,14 @@ import classes from './article-list.module.scss';
 const ArticleList = () => {
   const reducerArticles = useSelector((state) => state.reducerArticles);
 
-  const { articles, articlesCount, loading, error } = reducerArticles;
+  const { articles, articlesCount, loading, error, deleted, edited } = reducerArticles;
 
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getArticles(page));
-  }, [dispatch, page]);
+  }, [dispatch, page, deleted, edited]);
 
   return (
     <>

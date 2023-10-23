@@ -245,7 +245,7 @@ export const loginUser = (userData) => {
       }
       dispatch(postLogSuccess(user));
     } catch (error) {
-      if (error.message === '422') dispatch(postLogServerFailure(error));
+      if (error.message === 'Request failed with status code 422') dispatch(postLogServerFailure(error));
       else dispatch(postLogFailure(error.message));
     }
   };
@@ -270,7 +270,8 @@ export const editProfile = (userData) => {
       const { user } = res.data;
       dispatch(putEditProfSuccess(user));
     } catch (error) {
-      if (error.message === '422') dispatch(putEditProfServerFailure(error));
+      console.log(error.response);
+      if (error.message === 'Request failed with status code 422') dispatch(putEditProfServerFailure(error.response));
       else dispatch(putEditProfFailure(error.message));
     }
   };

@@ -105,7 +105,7 @@ const ArticleItemFull = () => {
             ) : null}
           </div>
         </div>
-        <ReactMarkdown>{markdown}</ReactMarkdown>
+        <ReactMarkdown className={classes.full__markdown}>{markdown}</ReactMarkdown>
       </li>
     </>
   );

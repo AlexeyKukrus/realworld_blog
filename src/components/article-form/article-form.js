@@ -128,7 +128,7 @@ const ArticleForm = () => {
           <div>{errors?.description && <p className={classes.error__message}>{errors.description.message}</p>}</div>
 
           <label className={classes.create__form_label}>Text</label>
-          <input
+          <textarea
             id="body"
             className={classNames(classes.create__form_input, classes.create__form_input_text, {
               [classes.error__input]: errors.title,

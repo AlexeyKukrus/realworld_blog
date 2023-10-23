@@ -16,8 +16,10 @@ export const initialStateArticles = {
     author: {
       username: null,
       image: null,
-      following: false,
     },
+  },
+  server: {
+    errors: null,
   },
   created: false,
   edited: false,
@@ -33,10 +35,12 @@ export const initialStateUsers = {
   },
   server: {
     errors: {
-      body: [],
+      username: null,
+      email: null,
     },
   },
   isLogin: false,
   loading: false,
   error: null,
+  flag: false,
 };

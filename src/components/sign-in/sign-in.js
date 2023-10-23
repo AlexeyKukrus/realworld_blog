@@ -12,7 +12,7 @@ import classes from './sign-in.module.scss';
 
 const SignIn = () => {
   const reducerUsers = useSelector((state) => state.reducerUsers);
-  const { loading, error, isLogin, server } = reducerUsers;
+  const { loading, error, isLogin, flag } = reducerUsers;
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -26,7 +26,6 @@ const SignIn = () => {
 
   const onSubmit = (userData) => {
     const { email, password } = userData;
-    console.log(server);
     const user = {
       user: {
         email: email,
@@ -38,8 +37,8 @@ const SignIn = () => {
 
   useEffect(() => {
     if (isLogin) {
-      reset();
       history.push('/articles');
+      reset();
     }
   }, [isLogin]);
 
@@ -61,7 +60,10 @@ const SignIn = () => {
             autoComplete="off"
             {...register('email', { required: 'Enter your email' })}
           />
-          <div>{errors?.email && <p className={classes.error__message}>{errors.email.message}</p>}</div>
+          <div>
+            {errors?.email && <p className={classes.error__message}>{errors.email.message}</p>}
+            {flag ? <p className={classes.error__message}>email or password: is invalid</p> : null}
+          </div>
 
           <label className={classes.signin__form_label} htmlFor="password">
             Password
@@ -74,12 +76,15 @@ const SignIn = () => {
             autoComplete="off"
             {...register('password', { required: 'Enter your password' })}
           />
-          <div>{errors?.password && <p className={classes.error__message}>{errors.password.message}</p>}</div>
+          <div>
+            {errors?.password && <p className={classes.error__message}>{errors.password.message}</p>}
+            {flag ? <p className={classes.error__message}>email or password: is invalid</p> : null}
+          </div>
           <button className={classes.signin__form_button} type="submit">
             Login
           </button>
           <p className={classes.signin__form_text}>
-            Don’t have an account?
+            {'Don’t have an account? '}
             <Link className={classes.signin__form_text_link} to="/sign-up">
               Sign Up
             </Link>

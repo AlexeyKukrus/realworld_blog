@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { editProfile } from '../../redux/actions/action-creators';
@@ -12,11 +11,10 @@ import classes from './profile.module.scss';
 
 const Profile = () => {
   const reducerUsers = useSelector((state) => state.reducerUsers);
-  const { user, loading, error, server } = reducerUsers;
+  const { user, loading, error, server, flag } = reducerUsers;
   const { username, email, image } = user;
 
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const {
     register,
@@ -34,7 +32,6 @@ const Profile = () => {
 
   const onSubmit = (userData) => {
     const { username, email, password, avatar_image } = userData;
-    console.log(server);
     const user = {
       user: {
         username: username,
@@ -43,13 +40,13 @@ const Profile = () => {
         image: avatar_image,
       },
     };
-    console.log(user);
-    history.push('/articles');
     dispatch(editProfile(user));
   };
 
   useEffect(() => {
-    reset();
+    if (!error) {
+      reset();
+    }
   }, [loading, error]);
 
   return (
@@ -74,7 +71,10 @@ const Profile = () => {
               maxLength: { value: 20, message: 'Your name needs to be at 3 - 20 characters.' },
             })}
           />
-          <div>{errors?.username && <p className={classes.error__message}>{errors.username.message}</p>}</div>
+          <div>
+            {flag ? <p className={classes.error__message}>{server.data.errors.username}</p> : null}
+            {errors?.username && <p className={classes.error__message}>{errors.username.message}</p>}
+          </div>
 
           <label className={classes.profile__form_label} htmlFor="email">
             Email address
@@ -121,6 +121,7 @@ const Profile = () => {
             className={classNames(classes.profile__form_input, { [classes.error__input]: errors.email })}
             placeholder="Avatar image"
             type="text"
+            defaultValue={image}
             autoComplete="off"
             {...register('avatar_image', {
               pattern: {

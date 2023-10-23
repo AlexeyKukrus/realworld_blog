@@ -39,6 +39,9 @@ const reducerArticles = (state = initialStateArticles, action) => {
         loading: false,
         articles: action.payload.articles,
         articlesCount: action.payload.articlesCount,
+        deleted: false,
+        edited: false,
+        created: false,
       };
     case FETCH_ARTICLES_FAILURE:
       return {
@@ -143,7 +146,7 @@ const reducerArticles = (state = initialStateArticles, action) => {
         ...state,
         loading: false,
         error: null,
-        statusDelete: true,
+        deleted: true,
       };
     case DELETE_ARTICLE_FAILURE:
       return {

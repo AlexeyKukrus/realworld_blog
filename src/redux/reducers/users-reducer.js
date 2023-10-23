@@ -31,7 +31,8 @@ const reducerUsers = (state = initialStateUsers, action) => {
         error: null,
         server: {
           errors: {
-            body: [],
+            username: null,
+            email: null,
           },
         },
         user: action.payload,
@@ -62,7 +63,8 @@ const reducerUsers = (state = initialStateUsers, action) => {
         error: null,
         server: {
           errors: {
-            body: [],
+            username: null,
+            email: null,
           },
         },
         user: action.payload,
@@ -78,7 +80,8 @@ const reducerUsers = (state = initialStateUsers, action) => {
         ...state,
         loading: false,
         error: null,
-        server: action.payload,
+        flag: true,
+        server: { errors: { ...action.payload } },
       };
     case GET_CURRENT_USER:
       return {
@@ -96,7 +99,8 @@ const reducerUsers = (state = initialStateUsers, action) => {
         },
         server: {
           errors: {
-            body: [],
+            username: null,
+            email: null,
           },
         },
         isLogin: false,
@@ -108,6 +112,7 @@ const reducerUsers = (state = initialStateUsers, action) => {
         ...state,
         loading: true,
         error: null,
+        flag: false,
       };
     case PUT_EDIT_PROFILE_SUCCESS:
       return {
@@ -117,9 +122,11 @@ const reducerUsers = (state = initialStateUsers, action) => {
         user: action.payload,
         server: {
           errors: {
-            body: [],
+            username: null,
+            email: null,
           },
         },
+        flag: false,
       };
     case PUT_EDIT_PROFILE_FAILURE:
       return {
@@ -131,6 +138,7 @@ const reducerUsers = (state = initialStateUsers, action) => {
       return {
         ...state,
         loading: false,
+        flag: true,
         server: action.payload,
       };
     default:
