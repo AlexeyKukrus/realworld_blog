@@ -56,7 +56,7 @@ const SignIn = () => {
             id="email"
             className={classNames(classes.signin__form_input, { [classes.error__input]: errors.email })}
             placeholder="Email address"
-            type="text"
+            type="email"
             autoComplete="off"
             {...register('email', { required: 'Enter your email' })}
           />
@@ -72,7 +72,7 @@ const SignIn = () => {
             id="password"
             className={classNames(classes.signin__form_input, { [classes.error__input]: errors.password })}
             placeholder="Password"
-            type="text"
+            type="password"
             autoComplete="off"
             {...register('password', { required: 'Enter your password' })}
           />
@@ -80,7 +80,7 @@ const SignIn = () => {
             {errors?.password && <p className={classes.error__message}>{errors.password.message}</p>}
             {flag ? <p className={classes.error__message}>email or password: is invalid</p> : null}
           </div>
-          <button className={classes.signin__form_button} type="submit">
+          <button className={classes.signin__form_button} type="submit" disabled={loading ? true : false}>
             Login
           </button>
           <p className={classes.signin__form_text}>

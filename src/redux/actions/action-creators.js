@@ -306,6 +306,7 @@ export const editArticle = (articleData, slug) => {
 };
 
 export const getEditArticle = (slug) => {
+  console.log(slug);
   return async (dispatch) => {
     try {
       dispatch(fetchEditArticlesRequest());

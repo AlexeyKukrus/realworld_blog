@@ -103,7 +103,7 @@ const Profile = () => {
             id="password"
             className={classNames(classes.profile__form_input, { [classes.error__input]: errors.password })}
             placeholder="Password"
-            type="text"
+            type="password"
             autoComplete="off"
             {...register('password', {
               required: 'Enter your password',
@@ -132,7 +132,7 @@ const Profile = () => {
           />
           <div>{errors?.avatar_image && <p className={classes.error__message}>{errors.password.message}</p>}</div>
 
-          <button className={classes.profile__form_button} type="submit" value="Save">
+          <button className={classes.profile__form_button} type="submit" value="Save" disabled={loading ? true : false}>
             Save
           </button>
         </form>

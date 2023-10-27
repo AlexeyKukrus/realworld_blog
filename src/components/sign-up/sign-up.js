@@ -82,7 +82,7 @@ const SignUp = () => {
             id="email"
             className={classNames(classes.signup__form_input, { [classes.error__input]: errors.email })}
             placeholder="Email address"
-            type="text"
+            type="email"
             autoComplete="off"
             {...register('email', {
               required: 'Enter your email',
@@ -104,7 +104,7 @@ const SignUp = () => {
             id="password"
             className={classNames(classes.signup__form_input, { [classes.error__input]: errors.password })}
             placeholder="Password"
-            type="text"
+            type="password"
             autoComplete="off"
             {...register('password', {
               required: 'Enter your password',
@@ -121,7 +121,7 @@ const SignUp = () => {
             id="repeat_password"
             className={classNames(classes.signup__form_input, { [classes.error__input]: errors.repeat_password })}
             placeholder="Password"
-            type="text"
+            type="password"
             autoComplete="off"
             {...register('repeat_password', {
               required: 'Repeat your password',
@@ -148,7 +148,7 @@ const SignUp = () => {
               I agree to the processing of my personal information
             </span>
           </div>
-          <button className={classes.signup__form_button} type="submit">
+          <button className={classes.signup__form_button} type="submit" disabled={loading ? true : false}>
             Create
           </button>
 

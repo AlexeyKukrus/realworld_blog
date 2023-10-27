@@ -16,12 +16,11 @@ const ArticleForm = () => {
   const error = useSelector((state) => state.reducerArticles.error);
   const created = useSelector((state) => state.reducerArticles.created);
   const edited = useSelector((state) => state.reducerArticles.edited);
-
+  const { slug } = useParams();
   const { title, description, body, tagList } = article;
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const { slug } = useParams();
   const path = history.location.pathname;
 
   const {
@@ -59,6 +58,7 @@ const ArticleForm = () => {
         tagList: editTagList,
       },
     };
+    console.log(slug);
     if (path === '/new-article') dispatch(createNewArticle(article));
     else {
       dispatch(editArticle(article, slug));
@@ -147,6 +147,7 @@ const ArticleForm = () => {
                   <input
                     className={classNames(classes.create__form_input, classes.create__form_input_tag)}
                     placeholder="Tag"
+                    type="text"
                     defaultValue={item.tag}
                     autoFocus
                     {...register(`tagList.${index}.tag`, { required: true })}
@@ -162,6 +163,7 @@ const ArticleForm = () => {
             <input
               className={classNames(classes.create__form_input, classes.create__form_input_tag)}
               placeholder="Tag"
+              type="text"
               {...register('newTag')}
             />
             <button className={classes.create__form_tags_delete} type="button" disabled={true}>
@@ -171,7 +173,7 @@ const ArticleForm = () => {
               Add tag
             </button>
           </div>
-          <button className={classes.create__form_button} type="submit">
+          <button className={classes.create__form_button} type="submit" disabled={loading ? true : false}>
             Send
           </button>
         </form>
